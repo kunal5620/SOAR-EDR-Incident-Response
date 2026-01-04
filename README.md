@@ -1,24 +1,27 @@
-# SOAR & EDR Incident Response Automation Project
+# SOAR & EDR Automation – LaZagne Credential Dumping Detection
 
 ## 📌 Project Overview
-This project demonstrates an **automated SOC incident response workflow** using **SOAR (Tines)** and **EDR integration** to detect, analyze, and respond to endpoint security threats.
+This project demonstrates an **automated SOC incident response workflow** for detecting and responding to **LaZagne credential dumping tool execution** on endpoints.
 
-The playbook includes **alert enrichment, analyst-in-the-loop decision making, automated endpoint isolation**, and **real-time notifications** to the SOC team.
+The solution integrates **EDR detections**, **Tines SOAR**, and **analyst-in-the-loop decision making** to enrich alerts, notify SOC analysts, and automatically **isolate compromised endpoints** upon approval.
+
+This project simulates a **real-world SOC response scenario** focused on credential access attacks.
 
 ---
 
 ## 🎯 Objectives
-- Automate EDR alert ingestion using webhooks
+- Detect execution of **LaZagne** on endpoints
+- Automate alert ingestion using webhooks
 - Enrich detections with endpoint and process context
-- Notify SOC analysts via Slack and email
-- Enable analyst approval before executing containment actions
-- Automatically isolate compromised endpoints
+- Notify SOC analysts via Slack and Email
+- Enable analyst approval before containment
+- Isolate compromised endpoints using EDR APIs
 - Provide real-time response status updates
 
 ---
 
 ## 🛠 Tools & Technologies
-- **Tines** – SOAR Platform
+- **Tines** – SOAR Automation Platform
 - **EDR Platform (API-based integration)**
 - **Slack** – SOC Notifications
 - **Email Notifications**
@@ -28,51 +31,74 @@ The playbook includes **alert enrichment, analyst-in-the-loop decision making, a
 ---
 
 ## 🏗 Architecture Overview
-The solution follows this flow:
+The workflow follows this high-level architecture:
 
-1. Endpoint generates a detection event
-2. Detection is sent to **Tines** via webhook
-3. Tines enriches the alert with:
-   - Timestamp
-   - Hostname
-   - Source IP
-   - Process name
-   - Command line
-   - File path
-   - Sensor ID
-4. Alert details are sent to Slack and Email
-5. SOC analyst is prompted to approve containment
-6. If approved, endpoint is isolated using EDR API
-7. Isolation status is verified and reported to SOC
+1. Endpoint executes LaZagne
+2. EDR generates a detection
+3. Detection is sent to **Tines** via webhook
+4. Alert is enriched with contextual details
+5. SOC analyst receives notifications
+6. Analyst approves or denies containment
+7. Endpoint is isolated if approved
+8. Isolation status is verified and reported
 
 ---
 
 ## 🔄 SOAR Workflow (Tines)
 
 ### 🔹 Workflow Steps
-- **Webhook Trigger** – Retrieves EDR detection
-- **Alert Notification** – Sends detailed alerts to Slack and Email
-- **User Prompt** – Analyst chooses whether to isolate the endpoint
-- **Conditional Logic**
-  - YES → Isolate endpoint
-  - NO → No action taken
-- **Status Verification** – Confirms isolation status
-- **Final Notification** – SOC team receives outcome
+1. **Webhook – Retrieve Detection**
+   - Receives LaZagne execution alert from EDR
+
+2. **Alert Enrichment**
+   - Extracts:
+     - Time
+     - Hostname
+     - Source IP
+     - Process name
+     - Command line
+     - File path
+     - Sensor ID
+     - Detection link
+
+3. **Alert Notification**
+   - Sends enriched alert details to:
+     - Slack
+     - Email
+
+4. **Analyst Decision (User Prompt)**
+   - Analyst chooses:
+     - ✅ YES → Isolate endpoint
+     - ❌ NO → Take no action
+
+5. **Automated Response**
+   - If YES:
+     - Endpoint is isolated using EDR API
+     - Isolation status is verified
+   - Final status is sent to Slack
 
 ---
 
-## 🧠 Use Case: Endpoint Compromise Detection
+## 🧠 Use Case: LaZagne Credential Dumping
 
-### 🔍 Detection Context
-- Suspicious process execution
-- Malicious command-line behavior
-- Endpoint compromise indicators
+### 🔍 Detection
+- Detects execution of **LaZagne**, a known credential harvesting tool
+- Identifies suspicious process execution and command-line behavior
+- High-severity detection indicating potential credential compromise
 
-### 🛡 Response Actions
-- Analyst-approved endpoint isolation
-- Prevents lateral movement
-- Reduces dwell time
+### 🧩 MITRE ATT&CK Mapping
+- **TA0006 – Credential Access**
+- **T1555 – Credentials from Password Stores**
+- **T1003 – Credential Dumping**
+
+### 🛡 Response
+- Analyst-reviewed containment decision
+- Endpoint isolation to prevent lateral movement
+- Rapid reduction of attacker dwell time
 
 ---
 
 ## 📸 Visuals
+- SOAR & EDR Architecture Diagram
+- Tines Workflow Diagram
+
