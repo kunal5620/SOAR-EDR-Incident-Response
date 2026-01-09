@@ -1,4 +1,5 @@
 # SOAR & EDR Automation – LaZagne Credential Dumping Detection
+![Alt text]([https://github.com/kunal5620/Active-Directory-SOC-Automation/blob/main/Architecture/Active%20Directory%202.0.drawio.png](https://github.com/kunal5620/SOAR-EDR-Automation-LaZagne-Credential-Dumping-Detection/blob/main/Architecture/SOAR%20%26%20EDR%20Project.drawio.png))
 
 ## 📌 Project Overview
 This project demonstrates an **automated SOC incident response workflow** for detecting and responding to **LaZagne credential dumping tool execution** on endpoints.
